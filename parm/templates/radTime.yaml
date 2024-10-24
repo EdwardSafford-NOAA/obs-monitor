@@ -23,32 +23,14 @@ datasets:
       - {{DATA}}/time.{{SENSOR}}_{{SAT}}.ctl
     filenames:
       - {{DATA}}/time.{{SENSOR}}_{{SAT}}.{{ PDATE | to_YMDH }}.ieee_d
-      {% set pdates = [PDATEm6,   PDATEm12,  PDATEm18,  PDATEm24,  PDATEm30,  PDATEm36,
-                       PDATEm42,  PDATEm48,  PDATEm54,  PDATEm60,  PDATEm66,  PDATEm72,
-                       PDATEm78,  PDATEm84,  PDATEm90,  PDATEm96,  PDATEm102, PDATEm108,
-                       PDATEm114, PDATEm120, PDATEm126, PDATEm132, PDATEm138, PDATEm144,
-                       PDATEm150, PDATEm156, PDATEm162, PDATEm168, PDATEm174, PDATEm180,
-                       PDATEm186, PDATEm192, PDATEm198, PDATEm204, PDATEm210, PDATEm216,
-                       PDATEm222, PDATEm228, PDATEm234, PDATEm240, PDATEm246, PDATEm252,
-                       PDATEm258, PDATEm264, PDATEm270, PDATEm276, PDATEm282, PDATEm288,
-                       PDATEm294, PDATEm300, PDATEm306, PDATEm312, PDATEm318, PDATEm324,
-                       PDATEm330, PDATEm336, PDATEm342, PDATEm348, PDATEm354, PDATEm360,
-                       PDATEm366, PDATEm372, PDATEm378, PDATEm384, PDATEm390, PDATEm396,
-                       PDATEm402, PDATEm408, PDATEm414, PDATEm420, PDATEm426, PDATEm432,
-                       PDATEm438, PDATEm444, PDATEm450, PDATEm456, PDATEm462, PDATEm468,
-                       PDATEm474, PDATEm480, PDATEm486, PDATEm492, PDATEm498, PDATEm504,
-                       PDATEm510, PDATEm516, PDATEm522, PDATEm528, PDATEm534, PDATEm540,
-                       PDATEm546, PDATEm552, PDATEm558, PDATEm564, PDATEm570, PDATEm576,
-                       PDATEm582, PDATEm588, PDATEm594, PDATEm600, PDATEm606, PDATEm612,
-                       PDATEm618, PDATEm624, PDATEm630, PDATEm636, PDATEm642, PDATEm648,
-                       PDATEm654, PDATEm660, PDATEm666, PDATEm672, PDATEm678, PDATEm684,
-                       PDATEm690, PDATEm696, PDATEm702, PDATEm708, PDATEm714, PDATEm720,
-                       PDATEm726] %}
 
-      {% for pdate in pdates %}
-      - {{ DATA }}/time.{{ SENSOR }}_{{ SAT }}.{{ pdate | to_YMDH }}.ieee_d
+      {% for i in range(6, 720, 6) %}
+      {% set offset_hr = i | string %}
+      {% set offset_str = "-" + offset_hr + "H" %}
+      {% set offset_td = offset_str | to_timedelta %}
+      {% set PDATEnew = PDATE | add_to_datetime(offset_td) %}
+      - {{ DATA }}/time.{{ SENSOR }}_{{ SAT }}.{{ PDATEnew | to_YMDH }}.ieee_d
       {% endfor %}
-
 
     channels: {{CHANNELS}}
     regions: &regions 1

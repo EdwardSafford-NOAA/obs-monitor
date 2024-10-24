@@ -22,9 +22,7 @@ datasets:
     control_file:
       - {{DATA}}/time.{{SENSOR}}_{{SAT}}.ctl
     filenames:
-      - {{DATA}}/time.{{SENSOR}}_{{SAT}}.{{ PDATE | to_YMDH }}.ieee_d
-
-      {% for i in range(6, 720, 6) %}
+      {% for i in range(0, 720, 6) %}
       {% set offset_hr = i | string %}
       {% set offset_str = "-" + offset_hr + "H" %}
       {% set offset_td = offset_str | to_timedelta %}
